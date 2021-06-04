@@ -1,1 +1,1 @@
-# newtonsketch
+# Companion code for Newton-LESS paper.
