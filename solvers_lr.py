@@ -52,7 +52,7 @@ class LogisticRegression:
         Ax = self.A @ x
         v = torch.exp(self.b * Ax)
         D = v / (1+v)**2
-        return 1./self.n * self.A.T @ torch.diag(D.squeeze()) @ self.A + self.lambd * torch.eye(self.d).to(self.device)
+        return 1./self.n * self.A.T @ (D * self.A) + self.lambd * torch.eye(self.d).to(self.device)
 
     def sqrt_hess(self, x):
         v_ = torch.exp(self.b * (self.A @ x))
@@ -135,7 +135,7 @@ class LogisticRegression:
             ws = sa @ sa.T + self.lambd * torch.eye(sketch_size).to(self.device)
             u = torch.cholesky(ws)
             sol_ = torch.cholesky_solve(sa @ g, u)
-            v = -1./lambd * (g - sa.T @ sol_)
+            v = -1./self.lambd * (g - sa.T @ sol_)
             
         #v = -torch.pinverse(hs) @ g
         s = self.line_search(x, v, g)
