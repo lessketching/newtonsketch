@@ -135,7 +135,7 @@ class LogisticRegression:
             ws = sa @ sa.T + self.lambd * torch.eye(sketch_size).to(self.device)
             u = torch.cholesky(ws)
             sol_ = torch.cholesky_solve(sa @ g, u)
-            v = -1./lambd * (g - sa.T @ sol_)
+            v = -1./self.lambd * (g - sa.T @ sol_)
             
         #v = -torch.pinverse(hs) @ g
         s = self.line_search(x, v, g)
