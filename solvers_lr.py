@@ -52,7 +52,7 @@ class LogisticRegression:
         Ax = self.A @ x
         v = torch.exp(self.b * Ax)
         D = v / (1+v)**2
-        return 1./self.n * self.A.T @ torch.diag(D.squeeze()) @ self.A + self.lambd * torch.eye(self.d).to(self.device)
+        return 1./self.n * self.A.T @ (D * self.A) + self.lambd * torch.eye(self.d).to(self.device)
 
     def sqrt_hess(self, x):
         v_ = torch.exp(self.b * (self.A @ x))
